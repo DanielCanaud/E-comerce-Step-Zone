@@ -25,11 +25,30 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const productId = Number(button.dataset.productId);
 
-      console.log('clicou no produto:', productId);
-
       addToCart(productId);
       renderCartCount();
       renderCartItems();
     });
+  });
+
+  document.addEventListener('click', event => {
+    const decreaseButton = event.target.closest('.decrease');
+    const increaseButton = event.target.closest('.increase');
+
+    if (decreaseButton) {
+      const productId = Number(decreaseButton.dataset.id);
+
+      decreaseItemQuantity(productId);
+      renderCartCount();
+      renderCartItems();
+    }
+
+    if (increaseButton) {
+      const productId = Number(increaseButton.dataset.id);
+
+      increaseItemQuantity(productId);
+      renderCartCount();
+      renderCartItems();
+    }
   });
 });

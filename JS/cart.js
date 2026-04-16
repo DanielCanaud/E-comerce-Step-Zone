@@ -1,9 +1,6 @@
 let cart = getCartFromStorage();
 
 function getProductById(productId) {
-  console.log('buscando produto por id:', productId);
-  console.log('products:', products);
-
   return products.find(product => product.id === productId);
 }
 
@@ -32,10 +29,8 @@ function getCartSubtotal() {
   }, 0);
 }
 
+// ✅ ADICIONAR PRODUTO
 function addToCart(productId) {
-  console.log('produto recebido:', productId);
-  console.log('cart antes:', JSON.stringify(cart));
-
   const existingItem = cart.find(item => item.id === productId);
 
   if (existingItem) {
@@ -47,11 +42,35 @@ function addToCart(productId) {
     });
   }
 
-  console.log('cart depois:', JSON.stringify(cart));
+  updateCartStorage();
+}
+
+// ✅ AUMENTAR QUANTIDADE
+function increaseItemQuantity(productId) {
+  const item = cart.find(item => item.id === productId);
+
+  if (!item) return;
+
+  item.quantity += 1;
+  updateCartStorage();
+}
+
+// ✅ DIMINUIR QUANTIDADE / REMOVER
+function decreaseItemQuantity(productId) {
+  const itemIndex = cart.findIndex(item => item.id === productId);
+
+  if (itemIndex === -1) return;
+
+  if (cart[itemIndex].quantity > 1) {
+    cart[itemIndex].quantity -= 1;
+  } else {
+    cart.splice(itemIndex, 1);
+  }
 
   updateCartStorage();
 }
 
+// ✅ CONTADOR DO CARRINHO
 function renderCartCount() {
   const cartCountElement = document.querySelector('.cart-count');
 
@@ -60,31 +79,22 @@ function renderCartCount() {
   cartCountElement.textContent = getCartTotalItems();
 }
 
+// ✅ RENDERIZAÇÃO DO CARRINHO
 function renderCartItems() {
-  console.log('renderCartItems rodou');
-  console.log('cart atual:', JSON.stringify(cart));
-
   const cartItemsContainer = document.getElementById('cartItems');
   const cartSubtotalElement = document.getElementById('cartSubtotal');
-
-  console.log('cartItemsContainer:', cartItemsContainer);
-  console.log('cartSubtotalElement:', cartSubtotalElement);
 
   if (!cartItemsContainer || !cartSubtotalElement) return;
 
   if (!cart.length) {
-    console.log('caiu no estado vazio');
     cartItemsContainer.innerHTML = '<p class="empty-message">Seu carrinho está vazio.</p>';
     cartSubtotalElement.textContent = formatCartPrice(0);
     return;
   }
 
-  const cartMarkup = cart
+  cartItemsContainer.innerHTML = cart
     .map(item => {
-      console.log('item do carrinho:', item);
-
       const product = getProductById(item.id);
-      console.log('produto encontrado:', product);
 
       if (!product) return '';
 
@@ -93,10 +103,17 @@ function renderCartItems() {
       return `
         <article class="cart-item">
           <img src="${product.image}" alt="${product.name}" class="cart-item__image" />
+
           <div class="cart-item__content">
             <h4 class="cart-item__title">${product.name}</h4>
             <p class="cart-item__price">Preço: ${formatCartPrice(product.price)}</p>
-            <p class="cart-item__quantity">Quantidade: ${item.quantity}</p>
+
+            <div class="cart-item__controls">
+              <button class="cart-item__btn decrease" data-id="${item.id}">−</button>
+              <span class="cart-item__quantity">${item.quantity}</span>
+              <button class="cart-item__btn increase" data-id="${item.id}">+</button>
+            </div>
+
             <p class="cart-item__subtotal">Subtotal: ${formatCartPrice(itemSubtotal)}</p>
           </div>
         </article>
@@ -104,8 +121,5 @@ function renderCartItems() {
     })
     .join('');
 
-  console.log('markup gerado:', cartMarkup);
-
-  cartItemsContainer.innerHTML = cartMarkup || '<p class="empty-message">Nenhum item válido encontrado.</p>';
   cartSubtotalElement.textContent = formatCartPrice(getCartSubtotal());
 }
