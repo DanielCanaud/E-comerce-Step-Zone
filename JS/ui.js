@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('ui.js carregado');
-
   renderProducts();
+  renderCartCount();
 
   const cartButton = document.querySelector('.cart-button');
   const closeCartButton = document.getElementById('closeCartButton');
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (cartButton && cartDrawer) {
     cartButton.addEventListener('click', () => {
-      console.log('clicou no carrinho');
       cartDrawer.classList.add('is-open');
     });
   }
@@ -19,4 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
       cartDrawer.classList.remove('is-open');
     });
   }
+
+  
+  const addToCartButtons = document.querySelectorAll('.product-card__button');
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productId = Number(button.dataset.productId);
+
+      console.log('clicou no produto', productId);
+
+      addToCart(productId);
+      renderCartCount();
+    });
+  });
 });

@@ -34,6 +34,7 @@ function createProductCard(product) {
           <button 
             type="button" 
             class="btn btn--primary product-card__button"
+            data-product-id="${product.id}"
           >
             Adicionar
           </button>
