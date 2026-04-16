@@ -29,7 +29,6 @@ function getCartSubtotal() {
   }, 0);
 }
 
-// ✅ ADICIONAR PRODUTO
 function addToCart(productId) {
   const existingItem = cart.find(item => item.id === productId);
 
@@ -45,7 +44,6 @@ function addToCart(productId) {
   updateCartStorage();
 }
 
-// ✅ AUMENTAR QUANTIDADE
 function increaseItemQuantity(productId) {
   const item = cart.find(item => item.id === productId);
 
@@ -55,7 +53,6 @@ function increaseItemQuantity(productId) {
   updateCartStorage();
 }
 
-// ✅ DIMINUIR QUANTIDADE / REMOVER
 function decreaseItemQuantity(productId) {
   const itemIndex = cart.findIndex(item => item.id === productId);
 
@@ -69,8 +66,11 @@ function decreaseItemQuantity(productId) {
 
   updateCartStorage();
 }
+function removeItemFromCart(productId){
+  cart = cart.filter(item => item.id !== productId);
+  updateCartStorage();
+}
 
-// ✅ CONTADOR DO CARRINHO
 function renderCartCount() {
   const cartCountElement = document.querySelector('.cart-count');
 
@@ -79,7 +79,6 @@ function renderCartCount() {
   cartCountElement.textContent = getCartTotalItems();
 }
 
-// ✅ RENDERIZAÇÃO DO CARRINHO
 function renderCartItems() {
   const cartItemsContainer = document.getElementById('cartItems');
   const cartSubtotalElement = document.getElementById('cartSubtotal');
@@ -115,6 +114,10 @@ function renderCartItems() {
             </div>
 
             <p class="cart-item__subtotal">Subtotal: ${formatCartPrice(itemSubtotal)}</p>
+
+              <button class="cart-item__remove" data-id="${item.id}">
+                  🗑️
+              </button>
           </div>
         </article>
       `;

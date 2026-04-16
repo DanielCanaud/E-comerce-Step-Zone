@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', event => {
     const decreaseButton = event.target.closest('.decrease');
     const increaseButton = event.target.closest('.increase');
+    const removeButton  = event.target.closest('.cart-item__remove');
 
     if (decreaseButton) {
       const productId = Number(decreaseButton.dataset.id);
@@ -49,6 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
       increaseItemQuantity(productId);
       renderCartCount();
       renderCartItems();
+    }
+    if (removeButton){
+      const productId = Number(removeButton.dataset.id);
+
+      removeItemFromCart(productId);
+      renderCartCount();
+      renderCartItems();
+
     }
   });
 });
