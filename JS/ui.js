@@ -1,3 +1,16 @@
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    setTimeout(() =>{
+      toast.classList.remove('show');
+    }, 2000);
+  }
+
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   renderCartCount();
@@ -28,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
       addToCart(productId);
       renderCartCount();
       renderCartItems();
+
+      showToast('produto adicionado ao carrinho')
     });
   });
 
