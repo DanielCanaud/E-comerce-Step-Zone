@@ -10,15 +10,32 @@
       toast.classList.remove('show');
     }, 2000);
   }
+  function updateCheckoutButtonState() {
+  const checkoutButton = document.getElementById('checkoutButton');
+
+  if (!checkoutButton) return;
+
+  const isCartEmpty = cart.length === 0;
+
+  if (isCartEmpty) {
+    checkoutButton.classList.add('is-disabled');
+    checkoutButton.setAttribute('aria-disabled', 'true');
+  } else {
+    checkoutButton.classList.remove('is-disabled');
+    checkoutButton.removeAttribute('aria-disabled');
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   renderCartCount();
   renderCartItems();
+  updateCheckoutButtonState();
 
   const cartButton = document.querySelector('.cart-button');
   const closeCartButton = document.getElementById('closeCartButton');
   const cartDrawer = document.getElementById('cartDrawer');
+  const checkoutButton = document.getElementById('checkoutButton');
 
   if (cartButton && cartDrawer) {
     cartButton.addEventListener('click', () => {
@@ -30,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closeCartButton.addEventListener('click', () => {
       cartDrawer.classList.remove('is-open');
     });
-  }
+  } 
 
   const addToCartButtons = document.querySelectorAll('.product-card__button');
 
@@ -41,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addToCart(productId);
       renderCartCount();
       renderCartItems();
+      updateCheckoutButtonState();
 
       showToast('produto adicionado ao carrinho')
     });
@@ -57,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       decreaseItemQuantity(productId);
       renderCartCount();
       renderCartItems();
+      updateCheckoutButtonState();
     }
 
     if (increaseButton) {
@@ -65,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
       increaseItemQuantity(productId);
       renderCartCount();
       renderCartItems();
+      updateCheckoutButtonState();
     }
     if (removeButton){
       const productId = Number(removeButton.dataset.id);
@@ -72,7 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
       removeItemFromCart(productId);
       renderCartCount();
       renderCartItems();
+      updateCheckoutButtonState();
 
     }
   });
+    if (checkoutButton){
+      checkoutButton.addEventListener('click', event => {
+        if (cart.length === 0){
+          event.preventDefault();
+          showToast('Adicione produtos antes de ir ao checkout');
+        }
+      });
+    }
 });

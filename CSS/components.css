@@ -322,3 +322,9 @@
     opacity: 1;
     transform: translateY(0);
 }
+#checkoutButton{
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: grayscale(0.3);
+    box-shadow: none;
+}
