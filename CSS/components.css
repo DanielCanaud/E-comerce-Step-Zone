@@ -540,3 +540,23 @@
   margin-bottom: 8px;
   color: var(--color-text);
 }
+.btn.is-loading {
+  opacity: 0.8;
+  cursor: wait;
+  pointer-events: none;
+}
+.btn.is-loading::after{
+  content: "";
+  width: 18px;
+  height: 18px;
+  margin-left: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: button-loading-spin 0.7s linear infinite;
+}
+@keyframes button-loading-spin{
+  to {
+    transform: rotate(360deg);
+  }
+}
