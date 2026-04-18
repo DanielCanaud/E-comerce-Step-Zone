@@ -34,8 +34,8 @@
         <div class="container checkout-page">
             <section class="checkout-main">
                 <div class="section__header section__header--left">
-                    <h1>Finalizar Compra</h1>
-                    <p>Revise seus itens e escolha a forma de pagamento.</p>
+                    <h1>Finalizar compra</h1>
+                    <p>Preencha seus dados, confira os itens e escolha a forma de pagamento.</p>
                 </div>
 
                 <section class="checkout-block" id="orderSummary">
@@ -45,8 +45,8 @@
                     </div>
                 </section>
 
-                <section class="checkout-block" id="paymentSection">
-                    <h2>Pagamento</h2>
+                <section class="checkout-block">
+                    <h2>Dados do cliente</h2>
 
                     <form id="checkoutForm" class="checkout-form">
                         <div class="form-group">
@@ -55,24 +55,146 @@
                                 type="text"
                                 id="customerName"
                                 class="input"
-                                placeholder="Digite seu nome"
+                                placeholder="Digite seu nome completo"
                                 required
                             />
                         </div>
 
-                        <div class="form-group">
-                            <label for="paymentMethod">Método de pagamento</label>
-                            <select id="paymentMethod" class="select" required>
-                                <option value="">Selecione uma opção</option>
-                                <option value="pix">Pix</option>
-                                <option value="credito">Cartão de crédito</option>
-                                <option value="debito">Cartão de débito</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerEmail">E-mail</label>
+                                <input
+                                    type="email"
+                                    id="customerEmail"
+                                    class="input"
+                                    placeholder="seuemail@exemplo.com"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customerPhone">Telefone</label>
+                                <input
+                                    type="text"
+                                    id="customerPhone"
+                                    class="input"
+                                    placeholder="(11) 99999-9999"
+                                    required
+                                />
+                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn--primary btn--full">
-                            Finalizar compra
-                        </button>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerCpf">CPF</label>
+                                <input
+                                    type="text"
+                                    id="customerCpf"
+                                    class="input"
+                                    placeholder="000.000.000-00"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customerCep">CEP</label>
+                                <input
+                                    type="text"
+                                    id="customerCep"
+                                    class="input"
+                                    placeholder="00000-000"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="customerStreet">Rua</label>
+                            <input
+                                type="text"
+                                id="customerStreet"
+                                class="input"
+                                placeholder="Digite sua rua"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerNumber">Número</label>
+                                <input
+                                    type="text"
+                                    id="customerNumber"
+                                    class="input"
+                                    placeholder="Ex: 123"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customerComplement">Complemento</label>
+                                <input
+                                    type="text"
+                                    id="customerComplement"
+                                    class="input"
+                                    placeholder="Apartamento, bloco, referência"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerDistrict">Bairro</label>
+                                <input
+                                    type="text"
+                                    id="customerDistrict"
+                                    class="input"
+                                    placeholder="Digite seu bairro"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customerCity">Cidade</label>
+                                <input
+                                    type="text"
+                                    id="customerCity"
+                                    class="input"
+                                    placeholder="Digite sua cidade"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="customerState">Estado</label>
+                            <input
+                                type="text"
+                                id="customerState"
+                                class="input"
+                                placeholder="Ex: SP"
+                                maxlength="2"
+                                required
+                            />
+                        </div>
+
+                        <div class="checkout-block checkout-block--nested" id="paymentSection">
+                            <h2>Pagamento</h2>
+
+                            <div class="form-group">
+                                <label for="paymentMethod">Método de pagamento</label>
+                                <select id="paymentMethod" class="select" required>
+                                    <option value="">Selecione uma opção</option>
+                                    <option value="pix">Pix</option>
+                                    <option value="credito">Cartão de crédito</option>
+                                    <option value="debito">Cartão de débito</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn--primary btn--full">
+                                Finalizar compra
+                            </button>
+                        </div>
                     </form>
                 </section>
             </section>

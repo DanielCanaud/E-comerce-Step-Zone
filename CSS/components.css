@@ -506,4 +506,15 @@
 .summary-line--total {
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
+}.form-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.checkout-block--nested{
+  margin-top: 8px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
