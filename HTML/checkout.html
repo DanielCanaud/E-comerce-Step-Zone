@@ -191,6 +191,60 @@
                                 </select>
                             </div>
 
+                            <div id="paymentDetails" class="payment-details">
+                                <div id="pixFields" class="payment-panel is-hidden">
+                                    <div class="payment-info-card">
+                                        <h3>Pagamento via Pix</h3>
+                                        <p>Após finalizar a compra, o pagamento será confirmado instantaneamente.</p>
+                                        <p><strong>Chave Pix:</strong> pagamento@stepzone.com</p>
+                                    </div>
+                                </div>
+
+                                <div id="cardFields" class="payment-panel is-hidden">
+                                    <div class="form-group">
+                                        <label for="cardNumber">Número do cartão</label>
+                                        <input
+                                            type="text"
+                                            id="cardNumber"
+                                            class="input"
+                                            placeholder="0000 0000 0000 0000"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cardName">Nome impresso no cartão</label>
+                                        <input
+                                            type="text"
+                                            id="cardName"
+                                            class="input"
+                                            placeholder="Como está no cartão"
+                                        />
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="cardExpiry">Validade</label>
+                                            <input
+                                                type="text"
+                                                id="cardExpiry"
+                                                class="input"
+                                                placeholder="MM/AA"
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cardCvv">CVV</label>
+                                            <input
+                                                type="text"
+                                                id="cardCvv"
+                                                class="input"
+                                                placeholder="123"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn btn--primary btn--full">
                                 Finalizar compra
                             </button>

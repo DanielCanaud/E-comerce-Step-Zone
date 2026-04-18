@@ -125,11 +125,28 @@ function applyPhoneMask(value) {
     .replace(/(\d{5})(\d)/, '$1-$2');
 }
 
+function applyCardNumberMask(value) {
+  const numbers = value.replace(/\D/g, '').slice(0, 16);
+  return numbers.replace(/(\d{4})(?=\d)/g, '$1 ');
+}
+
+function applyCardExpiryMask(value) {
+  const numbers = value.replace(/\D/g, '').slice(0, 4);
+  return numbers.replace(/^(\d{2})(\d)/, '$1/$2');
+}
+
+function applyCardCvvMask(value) {
+  return value.replace(/\D/g, '').slice(0, 4);
+}
+
 function setupInputMasks() {
   const cpfInput = document.getElementById('customerCpf');
   const cepInput = document.getElementById('customerCep');
   const phoneInput = document.getElementById('customerPhone');
   const stateInput = document.getElementById('customerState');
+  const cardNumberInput = document.getElementById('cardNumber');
+  const cardExpiryInput = document.getElementById('cardExpiry');
+  const cardCvvInput = document.getElementById('cardCvv');
 
   if (cpfInput) {
     cpfInput.addEventListener('input', event => {
@@ -155,6 +172,24 @@ function setupInputMasks() {
         .replace(/[^a-zA-Z]/g, '')
         .slice(0, 2)
         .toUpperCase();
+    });
+  }
+
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', event => {
+      event.target.value = applyCardNumberMask(event.target.value);
+    });
+  }
+
+  if (cardExpiryInput) {
+    cardExpiryInput.addEventListener('input', event => {
+      event.target.value = applyCardExpiryMask(event.target.value);
+    });
+  }
+
+  if (cardCvvInput) {
+    cardCvvInput.addEventListener('input', event => {
+      event.target.value = applyCardCvvMask(event.target.value);
     });
   }
 }
@@ -185,6 +220,45 @@ function isValidCep(cep) {
 function isValidState(state) {
   return /^[A-Za-z]{2}$/.test(state);
 }
+function isValidCardNumber(cardNumber){
+  const cardNumbers  = getOnlyNumbers(cardNumber);
+  return cardNumbers.length === 16;
+}
+function isValidCardName(cardName){
+  return cardName.trim().length >= 5;
+}
+function isValidCardExpiry(cardExpiry){
+  if (!/^\d{2}\/\d{2}$/.test(cardExpiry)){
+    return false;
+  }
+  const [month] = cardExpiry.split('/').map(Number);
+
+  return month >= 1 && month <= 12;
+}
+function isValidCardCvv(cardCvv){
+  const cvvNumbers  = getOnlyNumbers(cardCvv);
+  return cvvNumbers.length === 3 || cvvNumbers.length === 4;
+}
+function updatePaymentDetails() {
+  const paymentMethodSelect = document.getElementById('paymentMethod');
+  const pixFields = document.getElementById('pixFields');
+  const cardFields = document.getElementById('cardFields');
+
+  if (!paymentMethodSelect || !pixFields || !cardFields) return;
+
+  const selectedMethod = paymentMethodSelect.value;
+
+  pixFields.classList.add('is-hidden');
+  cardFields.classList.add('is-hidden');
+
+  if (selectedMethod === 'pix') {
+    pixFields.classList.remove('is-hidden');
+  }
+
+  if (selectedMethod === 'credito' || selectedMethod === 'debito') {
+    cardFields.classList.remove('is-hidden');
+  }
+}
 
 function handleCheckoutSubmit(event) {
   event.preventDefault();
@@ -201,6 +275,10 @@ function handleCheckoutSubmit(event) {
   const customerCityInput = document.getElementById('customerCity');
   const customerStateInput = document.getElementById('customerState');
   const paymentMethodSelect = document.getElementById('paymentMethod');
+  const cardNumberInput = document.getElementById('cardNumber');
+  const cardNameInput = document.getElementById('cardName');
+  const cardExpiryInput = document.getElementById('cardExpiry');
+  const cardCvvInput = document.getElementById('cardCvv');
 
   if (
     !customerNameInput ||
@@ -214,7 +292,11 @@ function handleCheckoutSubmit(event) {
     !customerDistrictInput ||
     !customerCityInput ||
     !customerStateInput ||
-    !paymentMethodSelect
+    !paymentMethodSelect ||
+    !cardNumberInput ||
+    !cardNameInput ||
+    !cardExpiryInput ||
+    !cardCvvInput
   ) {
     return;
   }
@@ -231,6 +313,10 @@ function handleCheckoutSubmit(event) {
   const customerCity = customerCityInput.value.trim();
   const customerState = customerStateInput.value.trim();
   const paymentMethod = paymentMethodSelect.value;
+  const cardNumber = cardNumberInput.value.trim();
+  const cardName = cardNameInput.value.trim();
+  const cardExpiry = cardExpiryInput.value.trim();
+  const cardCvv = cardCvvInput.value.trim();
 
   let errorMessage = '';
   let errorField = null;
@@ -288,6 +374,30 @@ function handleCheckoutSubmit(event) {
   } else if (!paymentMethod) {
     errorMessage = 'Selecione um método de pagamento.';
     errorField = paymentMethodSelect;
+    } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !cardNumber) {
+    errorMessage = 'Preencha o número do cartão.';
+    errorField = cardNumberInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !isValidCardNumber(cardNumber)) {
+    errorMessage = 'Digite um número de cartão válido com 16 dígitos.';
+    errorField = cardNumberInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !cardName) {
+    errorMessage = 'Preencha o nome impresso no cartão.';
+    errorField = cardNameInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !isValidCardName(cardName)) {
+    errorMessage = 'Digite o nome do cartão como está impresso.';
+    errorField = cardNameInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !cardExpiry) {
+    errorMessage = 'Preencha a validade do cartão.';
+    errorField = cardExpiryInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !isValidCardExpiry(cardExpiry)) {
+    errorMessage = 'Digite uma validade válida no formato MM/AA.';
+    errorField = cardExpiryInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !cardCvv) {
+    errorMessage = 'Preencha o CVV do cartão.';
+    errorField = cardCvvInput;
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !isValidCardCvv(cardCvv)) {
+    errorMessage = 'Digite um CVV válido com 3 ou 4 números.';
+    errorField = cardCvvInput;
   }
 
   if (errorMessage) {
@@ -318,6 +428,14 @@ function handleCheckoutSubmit(event) {
     customerCity,
     customerState,
     paymentMethod,
+    cardData: paymentMethod === 'credito' || paymentMethod === 'debito'
+      ? {
+          cardNumber,
+          cardName,
+          cardExpiry,
+          cardCvv
+        }
+      : null,
     items: cart,
     subtotal,
     discount,
@@ -338,14 +456,20 @@ function handleCheckoutSubmit(event) {
 document.addEventListener('DOMContentLoaded', () => {
   renderCheckoutSummary();
   setupInputMasks();
+  updatePaymentDetails();
 
   if (!cart.length) {
     showToast('Seu carrinho está vazio.');
   }
 
   const checkoutForm = document.getElementById('checkoutForm');
+  const paymentMethodSelect = document.getElementById('paymentMethod');
 
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', handleCheckoutSubmit);
+  }
+
+  if (paymentMethodSelect) {
+    paymentMethodSelect.addEventListener('change', updatePaymentDetails);
   }
 });
