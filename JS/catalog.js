@@ -58,3 +58,40 @@ function renderProducts(productList = products) {
     .map(createProductCard)
     .join('');
 }
+
+function getFilteredProducts() {
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+
+  const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+
+  return products.filter(product => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm);
+
+    const matchesCategory =
+      selectedCategory === 'all' || product.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+}
+
+function applyCatalogFilters() {
+  const filteredProducts = getFilteredProducts();
+  renderProducts(filteredProducts);
+}
+
+function setupCatalogFilters() {
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyCatalogFilters);
+  }
+
+  if (categoryFilter) {
+    categoryFilter.addEventListener('change', applyCatalogFilters);
+  }
+}
