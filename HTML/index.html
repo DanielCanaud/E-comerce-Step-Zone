@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StepZone</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com"/>
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"/>
-    <link rel="stylesheet" href="../CSS/reset.css">
-    <link rel="stylesheet" href="../CSS/main.css">
-    <link rel="stylesheet" href="../CSS/components.css">
-    <link rel="stylesheet" href="../CSS/responsive.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../CSS/reset.css" />
+    <link rel="stylesheet" href="../CSS/main.css" />
+    <link rel="stylesheet" href="../CSS/components.css" />
+    <link rel="stylesheet" href="../CSS/responsive.css" />
 </head>
 <body>
     <header class="header">
@@ -19,88 +23,100 @@
             <a href="./index.html" class="logo">Step<span>Zone</span></a>
 
             <nav class="nav">
-                <a href="#hero">Inicio</a>
+                <a href="#hero">Início</a>
                 <a href="#products">Produtos</a>
                 <a href="#footer">Contato</a>
             </nav>
+
             <button class="cart-button" type="button" aria-label="Abrir carrinho">
-            🛒
-            <span class="cart-count">0</span>
+                🛒
+                <span class="cart-count">0</span>
             </button>
         </div>
     </header>
+
     <main>
         <section class="hero" id="hero">
-            <div class="container hero_content">
+            <div class="container hero__content">
                 <div class="hero__text">
                     <span class="hero__tag">Coleção Neon</span>
                     <h1>Estilo em cada passo</h1>
                     <p>
-                    Descubra os melhores tênis, acessorios e relógios para expressar sua personalidade única.
+                        Descubra os melhores tênis, acessórios e relógios para expressar sua personalidade única.
                     </p>
-                    <a href="#products" class="btn btn-primary">Ver Produtos</a>
+                    <a href="#products" class="btn btn--primary">Ver Produtos</a>
                 </div>
-                <div class="hero-image">
-                    <img src="../assets/img/hero-shoe.png" alt="tênis em destaque da stapzone"/> 
+
+                <div class="hero__image">
+                    <img src="../assets/img/hero-shoe.png" alt="Tênis em destaque da StepZone" />
                 </div>
             </div>
         </section>
+
         <section class="products section" id="products">
             <div class="container">
                 <div class="section__header">
                     <h2>Destaques da semana</h2>
-                    <p>Seleção especial de produtos que combinam com o seu ritimo.</p>
+                    <p>Seleção especial de produtos que combinam com o seu ritmo.</p>
                 </div>
+
                 <div class="filters">
                     <input
-                    type="text"
-                    id="serachInput"
-                    class="input"
-                    placeholder="Buscar produto pelo nome"
+                        type="text"
+                        id="serachInput"
+                        class="input"
+                        placeholder="Buscar produto pelo nome"
                     />
+
                     <select id="categoryFilter" class="select">
                         <option value="all">Todas as categorias</option>
-                        <option value="tenis">tênis</option>
-                        <option value="ôculos">ôculos</option>
-                        <option value="relógios">relógios</option>
+                        <option value="tenis">Tênis</option>
+                        <option value="oculos">Óculos</option>
+                        <option value="relogios">Relógios</option>
                     </select>
                 </div>
+
                 <div class="products__grid" id="productsGrid">
-                    <!--Produtos renderizados  via javascript-->
+                    <!-- Produtos renderizados via JavaScript -->
                 </div>
             </div>
         </section>
     </main>
-        <aside class="cart-drawer" id="cartDrawer">
-            <div class="cart-drawer__header">
-                <h3>Seu carrinho</h3>
-                <button type="button" id="closeCartButton" aria-label="Fechar Carrinho">✕</button>
-            </div>
-            <div class="cart-drawer__body" id="cartItems">
-                <p class="empty-message">Seu carrinho está vazio</p>
-            </div>
-            <div class="cart-drawer__footer">
-                <div class="cart-summary">
-                    <p>Subtotal: <strong id="cartSubtotal">R$ 0,00</strong></p>
-                </div>
-                <a href="./checkout.html" class="btn btn--primary btn--full" id="checkoutButton">
-                    Ir para o checkout
-                </a>
 
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer__header">
+            <h3>Seu carrinho</h3>
+            <button type="button" id="closeCartButton" aria-label="Fechar carrinho">✕</button>
+        </div>
+
+        <div class="cart-drawer__body" id="cartItems">
+            <p class="empty-message">Seu carrinho está vazio</p>
+        </div>
+
+        <div class="cart-drawer__footer">
+            <div class="cart-summary">
+                <p>Subtotal: <strong id="cartSubtotal">R$ 0,00</strong></p>
             </div>
 
-        </aside>
+            <a href="./checkout.html" class="btn btn--primary btn--full" id="checkoutButton">
+                Ir para o checkout
+            </a>
+        </div>
+    </aside>
+
     <footer class="footer" id="footer">
         <div class="container">
-            <p>contato: contato@stepzone.com</p>
-            <p>&copy; 2026 StepZone. todos os direitos reservados</p>
+            <p>Contato: contato@stepzone.com</p>
+            <p>&copy; 2026 StepZone. Todos os direitos reservados.</p>
         </div>
     </footer>
-        <div id="toast" class="toast">Produto adicionado ao carrinho</div>
-        <script src="../JS/products.js"></script>
-        <script src="../JS/storage.js"></script>
-        <script src="../JS/cart.js"></script>
-        <script src="../JS/catalog.js"></script>
-        <script src="../JS/ui.js"></script>
+
+    <div id="toast" class="toast">Produto adicionado ao carrinho</div>
+
+    <script src="../JS/products.js"></script>
+    <script src="../JS/storage.js"></script>
+    <script src="../JS/cart.js"></script>
+    <script src="../JS/catalog.js"></script>
+    <script src="../JS/ui.js"></script>
 </body>
 </html>
