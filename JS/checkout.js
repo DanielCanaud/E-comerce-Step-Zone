@@ -1,4 +1,5 @@
 let toastTimeoutId = null;
+let lastFetchedCep  = '';
 
 function showToast(message) {
   const toast = document.getElementById('toast');
@@ -220,25 +221,31 @@ function isValidCep(cep) {
 function isValidState(state) {
   return /^[A-Za-z]{2}$/.test(state);
 }
-function isValidCardNumber(cardNumber){
-  const cardNumbers  = getOnlyNumbers(cardNumber);
+
+function isValidCardNumber(cardNumber) {
+  const cardNumbers = getOnlyNumbers(cardNumber);
   return cardNumbers.length === 16;
 }
-function isValidCardName(cardName){
+
+function isValidCardName(cardName) {
   return cardName.trim().length >= 5;
 }
-function isValidCardExpiry(cardExpiry){
-  if (!/^\d{2}\/\d{2}$/.test(cardExpiry)){
+
+function isValidCardExpiry(cardExpiry) {
+  if (!/^\d{2}\/\d{2}$/.test(cardExpiry)) {
     return false;
   }
+
   const [month] = cardExpiry.split('/').map(Number);
 
   return month >= 1 && month <= 12;
 }
-function isValidCardCvv(cardCvv){
-  const cvvNumbers  = getOnlyNumbers(cardCvv);
+
+function isValidCardCvv(cardCvv) {
+  const cvvNumbers = getOnlyNumbers(cardCvv);
   return cvvNumbers.length === 3 || cvvNumbers.length === 4;
 }
+
 function updatePaymentDetails() {
   const paymentMethodSelect = document.getElementById('paymentMethod');
   const pixFields = document.getElementById('pixFields');
@@ -258,6 +265,90 @@ function updatePaymentDetails() {
   if (selectedMethod === 'credito' || selectedMethod === 'debito') {
     cardFields.classList.remove('is-hidden');
   }
+}
+
+function fillAddressFields(addressData) {
+  const streetInput = document.getElementById('customerStreet');
+  const districtInput = document.getElementById('customerDistrict');
+  const cityInput = document.getElementById('customerCity');
+  const stateInput = document.getElementById('customerState');
+  const numberInput = document.getElementById('customerNumber');
+
+  if (streetInput) {
+    streetInput.value = addressData.logradouro || '';
+  }
+
+  if (districtInput) {
+    districtInput.value = addressData.bairro || '';
+  }
+
+  if (cityInput) {
+    cityInput.value = addressData.localidade || '';
+  }
+
+  if (stateInput) {
+    stateInput.value = (addressData.uf || '').toUpperCase();
+  }
+
+  if (numberInput) {
+    numberInput.focus();
+  }
+}
+
+async function fetchAddressByCep(cep) {
+  const cepNumbers = getOnlyNumbers(cep);
+
+  if (cepNumbers.length !== 8) {
+    return;
+  }
+
+  if (lastFetchedCep === cepNumbers) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cepNumbers}/json/`);
+
+    if (!response.ok) {
+      throw new Error('Erro na resposta da API');
+    }
+
+    const data = await response.json();
+
+    if (data.erro) {
+      showToast('CEP não encontrado.');
+      return;
+    }
+
+    fillAddressFields(data);
+    lastFetchedCep = cepNumbers;
+    showToast('Endereço preenchido automaticamente.');
+  } catch (error) {
+    console.error('Erro ao buscar CEP:', error);
+    showToast('Não foi possível buscar o CEP.');
+  }
+}
+function setupCepLookup() {
+  const cepInput = document.getElementById('customerCep');
+
+  if (!cepInput) return;
+
+  cepInput.addEventListener('input', event => {
+    const cepNumbers = getOnlyNumbers(event.target.value);
+
+    if (cepNumbers.length < 8) {
+      lastFetchedCep = '';
+      return;
+    }
+
+    if (cepNumbers.length === 8) {
+      fetchAddressByCep(event.target.value);
+    }
+  });
+
+  cepInput.addEventListener('blur', event => {
+    fetchAddressByCep(event.target.value);
+  });
 }
 
 function handleCheckoutSubmit(event) {
@@ -374,7 +465,7 @@ function handleCheckoutSubmit(event) {
   } else if (!paymentMethod) {
     errorMessage = 'Selecione um método de pagamento.';
     errorField = paymentMethodSelect;
-    } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !cardNumber) {
+  } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !cardNumber) {
     errorMessage = 'Preencha o número do cartão.';
     errorField = cardNumberInput;
   } else if ((paymentMethod === 'credito' || paymentMethod === 'debito') && !isValidCardNumber(cardNumber)) {
@@ -457,6 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCheckoutSummary();
   setupInputMasks();
   updatePaymentDetails();
+  setupCepLookup();
 
   if (!cart.length) {
     showToast('Seu carrinho está vazio.');
