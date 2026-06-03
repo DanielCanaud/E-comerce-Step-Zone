@@ -1,31 +1,31 @@
-# 🛒 StepZone - E-commerce de Tênis
+#  StepZone - E-commerce de Tênis
 
 O **StepZone** é um projeto de e-commerce desenvolvido com **HTML, CSS e JavaScript puro**, focado em criar uma experiência completa de compra online.
 
 ---
 
-## 🚀 Demonstração
+##  Demonstração
 
 > Projeto acadêmico front-end simulando uma loja virtual completa.
 
 ---
 
-## 🎯 Funcionalidades
+##  Funcionalidades
 
-### 🛍️ Catálogo de Produtos
+###  Catálogo de Produtos
 - Listagem dinâmica de produtos
 - Busca por nome
 - Filtro por categoria
 - Cards responsivos e interativos
 
-### 🛒 Carrinho de Compras
+###  Carrinho de Compras
 - Adicionar produtos
 - Aumentar/diminuir quantidade
 - Remover itens
 - Cálculo automático de subtotal
 - Persistência com **localStorage**
 
-### 💳 Checkout Completo
+###  Checkout Completo
 - Resumo do pedido
 - Cálculo de subtotal, desconto e total
 - Validação de formulário
@@ -39,10 +39,10 @@ O **StepZone** é um projeto de e-commerce desenvolvido com **HTML, CSS e JavaSc
   - Cartão de Crédito
   - Cartão de Débito
 
-### 📍 Integração com API
+###  Integração com API
 - ViaCEP para preenchimento automático de endereço
 
-### ✅ Página de Sucesso
+###  Página de Sucesso
 - Número do pedido
 - Nome do cliente
 - Método de pagamento
@@ -50,7 +50,7 @@ O **StepZone** é um projeto de e-commerce desenvolvido com **HTML, CSS e JavaSc
 - Resumo financeiro
 - Lista de produtos comprados
 
-### ✨ Experiência do Usuário (UX)
+###  Experiência do Usuário (UX)
 - Toasts de feedback
 - Loading no botão de compra
 - Prevenção de múltiplos envios
@@ -58,7 +58,7 @@ O **StepZone** é um projeto de e-commerce desenvolvido com **HTML, CSS e JavaSc
 
 ---
 
-## 🧱 Estrutura do Projeto
+##  Estrutura do Projeto
 E-comerce_StepZone/
 ├── assets/img/
 ├── CSS/
@@ -83,7 +83,7 @@ E-comerce_StepZone/
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - HTML5
 - CSS3 (Flexbox + Grid)
@@ -93,7 +93,7 @@ E-comerce_StepZone/
 
 ---
 
-## 🧠 Conceitos Aplicados
+##  Conceitos Aplicados
 
 - Manipulação do DOM
 - Programação modular em JavaScript
@@ -106,12 +106,12 @@ E-comerce_StepZone/
 
 ---
 
-## ▶️ Como Executar
+##  Como Executar
 
 1. Clone o repositório:
 ```bash
 git clone https://github.com/seu-usuario/stepzone.git
 
-👨‍💻 Autor
+ Autor
 
 Desenvolvido por Daniel Canaud
